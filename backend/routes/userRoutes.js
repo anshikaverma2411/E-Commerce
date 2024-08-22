@@ -5,13 +5,17 @@ import {
   logoutCurrentUser,
   getAllUsers,
   getCurrentUserProfile,
+  updateCurrentUserProfile,
 } from "../controllers/userController.js";
 
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/profile").get(authenticate, getCurrentUserProfile);
+router
+  .route("/profile")
+  .get(authenticate, getCurrentUserProfile)
+  .put(authenticate, updateCurrentUserProfile);
 
 router
   .route("/")
