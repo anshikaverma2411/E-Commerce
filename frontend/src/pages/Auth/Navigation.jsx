@@ -24,6 +24,7 @@ const Navigation = () => {
   const closeSidebar = () => {
     setShowSidebar(false);
   };
+
   return (
     <div
       style={{ zIndex: 999 }}
