@@ -109,6 +109,18 @@ const Register = () => {
           </button>
           {isLoading && <Loader />}
         </form>
+
+        <div className="mt-4">
+          <p className="text-black">
+            Already have an account?{" "}
+            <Link
+              to={redirect ? `/login?redirect=${redirect}` : "/login"}
+              className="text-pink-500 hover:underline"
+            >
+              Login
+            </Link>
+          </p>
+        </div>
       </div>
     </section>
   );
