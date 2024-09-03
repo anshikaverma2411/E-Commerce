@@ -27,6 +27,22 @@ const Register = () => {
       navigate(redirect);
     }
   }, [navigate, redirect, userInfo]);
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    if (password != confirmPassword) {
+      toast.error("Passwords do not match");
+    } else {
+      try {
+        const res = await register({ username, email, password }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        navigate(redirect);
+        toast.success("User successfully registered");
+      } catch (error) {
+        console.log(error);
+        toast.error(error.data.message);
+      }
+    }
+  };
 
   return (
     <section className="pl-[10rem] flex flex-wrap">
@@ -34,7 +50,7 @@ const Register = () => {
       <div className="mr-[4rem] mt-[5rem]">
         <h1 className="text-2xl font-semibold mb-4">Register</h1>
 
-        <form className="conatiner w-[40rem]">
+        <form onSubmit={submitHandler} className="conatiner w-[40rem]">
           <div className="my-[2rem]">
             <label
               htmlFor="name"
