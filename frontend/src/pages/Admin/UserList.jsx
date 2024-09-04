@@ -22,6 +22,36 @@ const UserList = () => {
     refetch();
   }, [refetch]);
 
+  const deleteHandler = async (id) => {
+    if (window.confirm("Are you sure?")) {
+      try {
+        await deleteUser(id);
+        refetch();
+      } catch (error) {
+        toast.error(error.data.message || error.error);
+      }
+    }
+  };
+
+  const toggleEdit = (id, username, email) => {
+    setEditableUserId(id);
+    setEditableUserName(username);
+    setEditableUserEmail(email);
+  };
+  const updateHandler = async (id) => {
+    try {
+      await updateUser({
+        userId: id,
+        username: editableUserName,
+        email: editableUserEmail,
+      });
+      setEditableUserId(null);
+      refetch();
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-semibold mb-4">Users</h1>
@@ -29,7 +59,7 @@ const UserList = () => {
         <Loader />
       ) : error ? (
         <Message variant="danger">
-          {error?.data.message || error.message}
+          {error?.data?.message || error.message}
         </Message>
       ) : (
         <div className="flex flex-col md:flex-row">
@@ -49,7 +79,7 @@ const UserList = () => {
                 <tr key={user._id}>
                   <td className="px-4 py-2">{user._id}</td>
                   <td className="px-4 py-2">
-                    {editableUserId == user._id ? (
+                    {editableUserId === user._id ? (
                       <div className="flex items-center">
                         <input
                           type="text"
@@ -78,7 +108,7 @@ const UserList = () => {
                     )}
                   </td>
                   <td className="px-4 py-2">
-                    {editableUserId == user._id ? (
+                    {editableUserId === user._id ? (
                       <div className="flex items-center">
                         <input
                           type="text"
